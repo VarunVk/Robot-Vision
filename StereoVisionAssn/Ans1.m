@@ -12,6 +12,7 @@ R = iread('rocks2-r.png', 'reduce', 2);
 % stdisp(L, R)
 
 % % Stereo vision with interpolation
+d = istereo(L, R, [40 90], 3);
 [di, sim, peak] = istereo(L, R, [40 90], 3, 'interp');
 figure;
 idisp(di,'bar');
@@ -22,7 +23,7 @@ status = ones(size(di));
 status(U <= 90)   = 2;        % no overlap - 90 pixels of left image
 status(sim < 0.8) = 3;        % weak match - all similarity values less than 0.8 are marked as invalid
 status(peak.A >= -0.1) = 4;   % broad peak
-status(isnan(di)) = 5;        % To mark all NaN of di as NaN in status
+status(isnan(d)) = 5;        % To mark all NaN of di as NaN in status
 di(status>1) = NaN;
 figure;
 ipixswitch(isnan(di), 'red', di);
@@ -37,8 +38,9 @@ b = 0.160;
 X = b*(U-u0) ./ di;
 Y = b*(V-v0) ./ di;
 Z = 3740 * b ./ di;
-surf(Z)
-shading interp; view(-150, 75)
-set(gca,'ZDir', 'reverse'); set(gca,'XDir', 'reverse')
+surf(Z);
+shading interp; view(-150, 75);
+set(gca,'ZDir', 'reverse'); set(gca,'XDir', 'reverse');
 shading interp; 
-colormap(hot);
+colorbar;
+colormap(parula);
