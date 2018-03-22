@@ -20,13 +20,11 @@ idisp(di,'bar');
 % Mark all invalid pixels as NaN
 status = ones(size(di));
 [U, V] = imeshgrid(L);
+status(isnan(d)) = 5;         % To mark all NaN of di as NaN in status
 status(U <= 90)   = 2;        % no overlap - 90 pixels of left image
 status(sim < 0.8) = 3;        % weak match - all similarity values less than 0.8 are marked as invalid
 status(peak.A >= -0.1) = 4;   % broad peak
-status(isnan(d)) = 5;        % To mark all NaN of di as NaN in status
 di(status>1) = NaN;
-figure;
-ipixswitch(isnan(di), 'red', di);
 
 % Plot the reconstruction
 di = di + 274;               % Offset from the real image
