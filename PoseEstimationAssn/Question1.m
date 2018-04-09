@@ -15,10 +15,7 @@ P = e2h(P);
 p = cam.project(P);
 
 % Homography is for p And P 
-H = homography(p, P(1:2, :))
+H = homography(P(1:2, :), p)
 
 % Call h2tr function to estimate the pose 
 Est_cTt = h2tr(cam.K, H)
-
-cTt
-
