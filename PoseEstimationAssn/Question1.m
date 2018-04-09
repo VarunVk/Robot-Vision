@@ -1,6 +1,7 @@
 %%% Question 1 %%%
 clc 
 clear
+
 % Pose of Target coordinate frame wrt Camera coordinate frame
 cTt = SE3(0.1, -0.2, 1.5) * SE3.rpy(0.1, 0.2, 0.3);
 
@@ -18,4 +19,8 @@ p = cam.project(P);
 H = homography(P(1:2, :), p)
 
 % Call h2tr function to estimate the pose 
-Est_cTt = h2tr(cam.K, H)
+Est_cTt = h2tr(cam.K, H);
+% cTt.display
+
+fprintf('Estimated Pose : %s\n', SE3(Est_cTt).print)
+fprintf('Actual Pose    : %s\n', cTt.print)
