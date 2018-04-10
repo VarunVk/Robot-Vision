@@ -19,10 +19,10 @@ Pr = P(:, randperm(N));
 Qr = Q(:, randperm(N));
 [corresp, dist] = closest(Pr, Qr);
 % Update Qr with the corresponding closest Pr
-for i=1:size(Qr,2)
-    Qr_new(:, i) = Qr(:, corresp(i));
+for i=1:size(Pr,2)
+    Pr_new(:, i) = Pr(:, corresp(i));
 end
-T2 = pq2tr(Qr_new, Pr)
+T2 = pq2tr(Pr_new, Qr)
 qTp
 
 %%%%%%%%%%%% PART C %%%%%%%%%%%%
