@@ -5,7 +5,7 @@ clear
 % Pose of Target coordinate frame wrt Camera coordinate frame
 cTt = SE3(0.1, -0.2, 1.5) * SE3.rpy(0.1, 0.2, 0.3);
 
-% Generate the real worlkd points using mkgrid
+% Generate the real world points using mkgrid
 P = mkgrid(2, 0.2);
 
 % Create a Camera as specified in the question
