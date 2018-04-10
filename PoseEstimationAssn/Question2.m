@@ -53,7 +53,7 @@ function [Pose] = ICP_simple(M, D, N=10)
             Pose = dT;
             M = h2e(Pose*e2h(M_new));
        else
-            M = h2e(Pose*e2h(M_new));
+            M = h2e(dT*e2h(M_new));
             Pose = Pose * dT;
        end 
     end
