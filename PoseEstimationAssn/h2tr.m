@@ -1,4 +1,4 @@
-function pose = h2tr(K, H)
+function [pose] = h2tr(K, H)
     ProdR1R2t = inv(K) * H;
     
     % First Row is  R1
