@@ -26,7 +26,7 @@ T2 = pq2tr(Pr_new, Qr)
 qTp
 
 %%%%%%%%%%%% PART C %%%%%%%%%%%%
-T3 = ICP_simple(Pr, Qr)
+T3 = ICP_simple(Pr, Qr, 10)
 qTp
 
 %%%%%%%% FUNCTION DEFINITIONS %%%%%%%%
@@ -38,7 +38,7 @@ function [Pose] = pq2tr(M,D)
     Pose = [R t; 0 0 0 1];
 end
 
-function [Pose] = ICP_simple(M, D, N=10)
+function [Pose] = ICP_simple(M, D, N)
     for i=1:N
        [corresp, dist] = closest(D,M);
        for j=1:size(corresp,2)
