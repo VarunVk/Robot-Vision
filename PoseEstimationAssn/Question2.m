@@ -26,15 +26,15 @@ T2 = pq2tr(Pr_new, Qr)
 qTp
 
 %%%%%%%%%%%% PART C %%%%%%%%%%%%
-T3 = ICP_simple(Pr, Qr, 10)
+T3 = ICP_simple(Pr, Qr)
 qTp
 
 %%%%%%%% FUNCTION DEFINITIONS %%%%%%%%
 function [Pose] = pq2tr(M,D)
-    W = (M-mean(M,2))*(D-mean(M,2))';
+    W = (M-mean(M,2))*(D-mean(D,2))';
     [U,S,V] = svd(W);
     R = V*U';
-    t = (Dmean-R*Mmean);
+    t = (mean(D,2)-R*mean(M,2));
     Pose = [R t; 0 0 0 1];
 end
 
