@@ -26,11 +26,10 @@ T2 = pq2tr(Pr_new, Qr)
 qTp
 
 %%%%%%%%%%%% PART C %%%%%%%%%%%%
-M=Pr;D=Qr;
-N = 10;
-T3 = ICP_simple(Pr, Qr, N)
+T3 = ICP_simple(Pr, Qr, 10)
 qTp
 
+%%%%%%%% FUNCTION DEFINITIONS %%%%%%%%
 function [Pose] = pq2tr(M,D)
     W = (M-mean(M,2))*(D-mean(M,2))';
     [U,S,V] = svd(W);
@@ -39,33 +38,23 @@ function [Pose] = pq2tr(M,D)
     Pose = [R t; 0 0 0 1];
 end
 
-function [T] = ICP_simple(M, D, N)
-    T = eye(4,4)
-    for i=1:10
+function [Pose] = ICP_simple(M, D, N=10)
+    for i=1:N
        [corresp, dist] = closest(D,M);
        for j=1:size(corresp,2)
            M_new(:,j) = M(:,corresp(j));
        end
-       M = M_new;
-       Dmean = mean(D,2);
-       Mmean = mean(M,2);
-       W = (M-Mmean)*(D-Dmean)';
-       [U,S,V] = svd(W);
-       R = V*U';
-       t = (Dmean-R*Mmean);
-
-       %%%%%%%%%%%
-       %Get back angle and x,y,z for translation
-       %[theta, v] = tr2angvec(R);
-
-       %%%%%%%%%%%
-       dT = [R t; 0 0 0 1];
-       mean(dist)
-       mean_dist=norm((mean(M))-(mean(D)));
-
+       
+       dT = pq2tr(M_new, D);
+       distance = mean(dist)
+       
+       %% For the first iteration use the dT as the Pose
        if i == 1
-           T = T*dT;
-       end
-       M = h2e(dT*e2h(M));
+            Pose = dT;
+            M = h2e(Pose*e2h(M_new));
+       else
+            M = h2e(Pose*e2h(M_new));
+            Pose = Pose * dT;
+       end 
     end
 end
